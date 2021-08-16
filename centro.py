@@ -1,21 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# ## ###############################################
-#
-# aud.py
-#
-# Centro multimedia, con servicio de streaming
-#
-# Autor: Torres López José Antonio
-# License: MIT
-#
-# ## ###############################################
-
 import pygame #Con esta clase controlamos la reproducción de archivos de audio
 import threading #Con esta clase controlamos hilos
 import vlc #Con esta clase controlamos el reproductor de archivos multimedia vlc
 import os #Usaremos esta clase para poder listar la lista de archivos del sistema
 from tkinter import* #Esta clase servirá para poder realizar una interfaz grafica
+from PIL import ImageTk, Image
 import webbrowser #Con esta clase mediante un navegador nos conectara a una paginá de internet
                   #para el servicio de streaming(Netflix y Spotify)
 """Con el método buscar, se revisará si el archivo fichero
@@ -68,32 +56,64 @@ class Ventana:
                             #objeto Tk, el cual permite crear ventanas con
                             #diferentes objetos dentro de ella
         self.omega=0#El atributo omega se inicializa en cero
-        maestro.title("Interfaz Maestro")#Ponemos el título a la ventana
-        self.boton=Button(maestro,text="Netflix",command=self.youtube)#Instanciamos un botón, con el texto
-                                                                        #Netflix y el comando youtube
-        self.boton.pack()#Coloca el botón
-        self.boton1=Button(maestro,text="Spotify",command=self.spt)#Instanciamos un botón, con el texto
-                                                                        #Spotify y el comando spt
-        self.boton1.pack()#Coloca el botón
-        self.boton2=Button(maestro,text="Memoria",command=self.memoria)#Instanciamos un botón, con el texto
-                                                                        #Memoria y el comando memoria
-        self.boton2.pack()#Coloca el botón
-        self.boton3=Button(maestro,text="Salir",command=self.salir)#Instanciamos un botón, con el texto
-                                                                        #Salir y el comando salir
-        self.boton3.pack()#Coloca el botón
+        maestro.title("Reproductor Phoenix")#Ponemos el título a la ventana
+        imagen= ImageTk.PhotoImage(Image.open("/home/pi/Documents/Proyecto/SmartHome/netflix.png").resize((100, 100)))
+        bg = PhotoImage(file = "/home/pi/Documents/Proyecto/SmartHome/Background.png")
+        # Create Canvas
+        canvas1 = Canvas(maestro)
+        canvas1.pack(fill = "both", expand = True)
+        # Display image
+        canvas1.create_image( -350, -150, image = bg, anchor = "nw")
+        
+        boton = Button(image = imagen, width= 90, height= 90,relief="flat",command=self.netflix).place(x=200,y=100)
+        
+        # Display Buttons
+        button1_canvas = canvas1.create_window(0, 0, window = boton)
+        button1_canvas.pack()
+        """
+        self.boton=Button(maestro,text="Netflix",command=self.netflix)#Instanciamos un botón, con el texto Netflix y el comando netflix
+        self.boton1.pack()
+
+        self.boton1=Button(maestro,text="Spotify",command=self.spt)
+        self.boton1.pack()
+
+        self.boton2=Button(maestro,text="Prime Video",command=self.amazonPrimeVideo)
+        self.boton2.pack()
+
+        self.boton3=Button(maestro,text="HBO Max",command=self.hboMax)
+        self.boton3.pack()
+
+        self.boton4=Button(maestro,text="Disney+",command=self.disneyPlus)
+        self.boton4.pack()
+
+        self.boton5=Button(maestro,text="Memoria",command=self.memoria)
+        self.boton5.pack()
+
+        self.boton6=Button(maestro,text="Salir",command=self.salir)
+        self.boton6.pack()"""
+
     """En estas sección se muestran los métodos que se activan al presionar los
     botones"""
-    def youtube(self):
+    def netflix(self):
         self.omega=1#Se le asigna al atributo omega 1
         self.maestro.destroy()#Destruye la ventana
     def spt(self):
-        self.omega=2#Se le asigna al atributo omega 2
-        self.maestro.destroy()#Destruye la ventana
+        self.omega=2
+        self.maestro.destroy()
+    def amazonPrimeVideo(self):
+        self.omega=3
+        self.maestro.destroy()
+    def hboMax(self):
+        self.omega=4
+        self.maestro.destroy()
+    def disneyPlus(self):
+        self.omega=5
+        self.maestro.destroy()
     def memoria(self):
-        self.maestro.destroy()#Destruye la ventana
+        self.maestro.destroy()
     def salir(self):
-        self.omega=4#Se le asigna al atributo omega 4
-        self.maestro.destroy()#Destruye la ventana
+        self.omega=6
+        self.maestro.destroy()
     """Método auxiliar para obtener el atributo omega"""
     def dev(self):
         return self.omega#Regresa el atributo omega
@@ -122,8 +142,8 @@ class Ventana2:
                                                                         #Salir y el comando salir
             self.salir.pack()
         if(len(arr)!=0):
-            self.boton=Button(maestro,text="Musica",command=self.youtube)#Instanciamos un botón, con el texto
-                                                                        #Música y el comando youtube
+            self.boton=Button(maestro,text="Musica",command=self.netflix)#Instanciamos un botón, con el texto
+                                                                        #Música y el comando netflix
             self.boton.pack()
         if(len(arr2)!=0):
             self.boton=Button(maestro,text="Imagenes",command=self.spt)#Instanciamos un botón, con el texto
@@ -133,19 +153,28 @@ class Ventana2:
             self.boton=Button(maestro,text="Video",command=self.memoria)#Instanciamos un botón, con el texto
                                                                         #Video y el comando memoria
             self.boton.pack()
-    def youtube(self):
+    def netflix(self):
         self.elec=1#Se le asigna al atributo elec 1
         self.maestro.destroy()#Destruye la ventana
     def spt(self):
-        self.elec=2#Se le asigna al atributo elec 2
-        self.maestro.destroy()#Destruye la ventana
+        self.elec=2
+        self.maestro.destroy()
+    def amazonPrimeVideo(self):
+        self.elec=3
+        self.maestro.destroy()
+    def hboMax(self):
+        self.elec=4
+        self.maestro.destroy()
+    def disneyPlus(self):
+        self.elec=5
+        self.maestro.destroy()
     def memoria(self):
-        self.elec=3#Se le asigna al atributo elec 3
-        self.maestro.destroy()#Destruye la ventana
+        self.elec=6
+        self.maestro.destroy()
     def regresa(self):
-        return self.elec#Regresa el valor elec
+        return self.elec
     def salir(self):
-        self.elec=5#Se le asigna al atributo elec 5
+        self.elec=7#Se le asigna al atributo elec 7
         self.maestro.destroy()#Destruye la ventana
 '''Crea la ventana para el control del contenido de contenido de audio
 de la memoria'''
@@ -159,8 +188,8 @@ class Ventana3:
         maestro.title("Reproductor de audio")
         pygame.mixer.music.load(self.n[self.i])#Carga el archivo de audio
         pygame.mixer.music.play()#Se reproduce el archivo cargado
-        self.boton=Button(maestro,text="Pausa",command=self.youtube)#Instanciamos un botón, con el texto
-                                                                        #Pausa y el comando youtube
+        self.boton=Button(maestro,text="Pausa",command=self.netflix)#Instanciamos un botón, con el texto
+                                                                        #Pausa y el comando netflix
         self.boton.pack()
         self.boton1=Button(maestro,text="Adelantar",command=self.spt)#Instanciamos un botón, con el texto
                                                                         #Adelantar y el comando spt
@@ -173,7 +202,7 @@ class Ventana3:
         self.boton3.pack()
     '''Si se presiona el botón de pausa se pausa o reanuda la música dependiendo
         del atributo ban'''
-    def youtube(self):
+    def netflix(self):
         '''Si ban es True la música esta reproduciendoce y se quiere pausar'''
         if(self.ban==True):
             pygame.mixer.music.pause()#Pausa el audio
@@ -205,6 +234,42 @@ class Ventana3:
     '''El método reto sirve para que al presionar atrasa, el reproductor cargue
     el siguiente video de la memoria y lo reproduzca, si la lista está en el
     primer video de la lista se va al último valor de la lista'''
+    def amazonPrimeVideo(self):
+        '''Si ban es True la música esta reproduciendoce y se quiere pausar'''
+        if(self.ban==True):
+            pygame.mixer.music.pause()#Pausa el audio
+            self.ban=False#Pone al atributo ban en False
+            '''Si ban es False la música esta en pausa y se quiere reproducir'''
+        else:
+            pygame.mixer.music.unpause()#Reanuda el audio
+            self.ban=True#Pone al atributo ban en True
+    '''El método spt sirve para que, al presionar adelantar, la música cargue
+    el siguiente audio de la memoria y lo reproduzca, si la lista está en el
+    ultimo audio de la lista se regresa al primer valor de la lista'''
+    def hboMax(self):
+        '''Si ban es True la música esta reproduciendoce y se quiere pausar'''
+        if(self.ban==True):
+            pygame.mixer.music.pause()#Pausa el audio
+            self.ban=False#Pone al atributo ban en False
+            '''Si ban es False la música esta en pausa y se quiere reproducir'''
+        else:
+            pygame.mixer.music.unpause()#Reanuda el audio
+            self.ban=True#Pone al atributo ban en True
+    '''El método spt sirve para que, al presionar adelantar, la música cargue
+    el siguiente audio de la memoria y lo reproduzca, si la lista está en el
+    ultimo audio de la lista se regresa al primer valor de la lista'''
+    def disneyPlus(self):
+        '''Si ban es True la música esta reproduciendoce y se quiere pausar'''
+        if(self.ban==True):
+            pygame.mixer.music.pause()#Pausa el audio
+            self.ban=False#Pone al atributo ban en False
+            '''Si ban es False la música esta en pausa y se quiere reproducir'''
+        else:
+            pygame.mixer.music.unpause()#Reanuda el audio
+            self.ban=True#Pone al atributo ban en True
+    '''El método spt sirve para que, al presionar adelantar, la música cargue
+    el siguiente audio de la memoria y lo reproduzca, si la lista está en el
+    ultimo audio de la lista se regresa al primer valor de la lista'''
     def retro(self):
         self.i=self.i-1#Incrementa el valor del atributo i en 1
                         #este es el índice de la lista de archivos de
@@ -435,7 +500,7 @@ while(bandera):
         arr=encontrar(r)
         b=[".mp4"]
         arr2=encontrar(b)
-        c=[".jpg",".png",".jfif"]
+        c=[".jpg",".png",".jfif","jpeg"]
         arr3=encontrar(c)
         '''Se analiza si solo se contiene un solo tipo de
         archivos, entiendase archivos como video, musica o imagenes.Para
@@ -504,18 +569,35 @@ while(bandera):
         nav=webbrowser.get("chrome")#Se obtiene el navegador para utilizarlo
         nav.open("https://www.netflix.com/mx/login")#Con esta instrucción se abre la pagina
                                                        #de Netflix con Chrome
-        '''Se eligio Spotify'''
+
     elif(valor==2):
-        '''Como el navegador chrome no se encuentra registrado, se
-        deben ejecutar las siguientes tres líneas para poder usarlo'''
-        comando="/usr/bin/chromium-browser %s"#Se guarda la ubicación del navegador
-                                            #Chrome
-        nav=webbrowser.get(comando)#Se utiliza el método get para obtener el navegador
-        webbrowser.register("chrome",None,nav)#Con este método se registra el navegador Chrome
-                                                #con el nombre de chrome
-        nav=webbrowser.get("chrome")#Se obtiene el navegador para utilizarlo
-        nav.open("https://accounts.spotify.com/es/login/?continue=https:%2F%2Fwww.spotify.com%2Fapi%2Fgrowth%2Fl2l-redirect&_locale=es-MX")#Con esta instrucción se abre la pagina
-                                                       #de Spotify con Chrome
+        comando="/usr/bin/chromium-browser %s"
+        nav=webbrowser.get(comando)
+        webbrowser.register("chrome",None,nav)
+        nav=webbrowser.get("chrome")
+        nav.open("https://accounts.spotify.com/es/login/?continue=https:%2F%2Fwww.spotify.com%2Fapi%2Fgrowth%2Fl2l-redirect&_locale=es-MX")
+
+    elif(valor==3):
+        comando="/usr/bin/chromium-browser %s"
+        nav=webbrowser.get(comando)
+        webbrowser.register("chrome",None,nav)
+        nav=webbrowser.get("chrome")
+        nav.open("https://www.primevideo.com/")
+
+    elif(valor==4):
+        comando="/usr/bin/chromium-browser %s"
+        nav=webbrowser.get(comando)
+        webbrowser.register("chrome",None,nav)
+        nav=webbrowser.get("chrome")
+        nav.open("https://www.hbomax.com/mx/es")
+
+    elif(valor==5):
+        comando="/usr/bin/chromium-browser %s"
+        nav=webbrowser.get(comando)
+        webbrowser.register("chrome",None,nav)
+        nav=webbrowser.get("chrome")
+        nav.open("https://www.disneyplus.com/es-mx")
+
         '''Se quiere salir'''
     else:
         bandera=False#Para terminar con el ciclo while
